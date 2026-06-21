@@ -13,7 +13,7 @@ NioCorp is a **high-risk, development-stage critical-minerals bet** whose outcom
 | Document | Main question answered | Best use | Most important finding | Open risk it leaves |
 |---|---|---|---|---|
 | [NioCorp-Elk-Creek-Due-Diligence.md](./NioCorp-Elk-Creek-Due-Diligence.md) | What is actually disclosed across 50 financing, capex, resource, product, offtake, and permitting questions? | Fast fact-base; separates disclosed from undisclosed | ~Half of the 50 questions have **material disclosure gaps**; the project is scandium-weighted, not niobium | Many key numbers await the updated FS |
-| [NioCorp-Elk-Creek-Stress-Model.md](./NioCorp-Elk-Creek-Stress-Model.md) | What do the real 2022 technical-report numbers say under stress and dilution? | Downside/dilution math; decision tables | After-tax NPV survives capex+20%/prices−20% (~$1.2B), but **scandium −50% halves it**; an ~$800M equity raise could ~triple the share count | 2022 economics predate the updated FS and rare-earth circuits |
+| [NioCorp-Elk-Creek-2022-FS-Stress-Test.md](./NioCorp-Elk-Creek-2022-FS-Stress-Test.md) | What do the real 2022 technical-report numbers say under stress and dilution? | Downside/dilution math; decision tables | After-tax NPV survives capex+20%/prices−20% (~$1.2B), but **scandium −50% halves it**; an ~$800M equity raise could ~triple the share count | 2022 economics predate the updated FS and rare-earth circuits |
 | [NioCorp-Government-Critical-Minerals-Policy-Dossier.md](./NioCorp-Government-Critical-Minerals-Policy-Dossier.md) | Does U.S. government policy/funding materially de-risk NB specifically? | Policy vs. company-specific support; commitment grading | Only enacted NB-specific federal cash is a **$10M study grant (~0.9% of capex)**; EXIM is **not committed**; scandium stockpile dollars went to **Rio Tinto**, not NB | Trump/Vance/Rubio have not named NB; no binding offtake or price floor |
 | [Government-Catalyst-Stock-Move-Event-Study-Tech-Industrial-Minerals.md](./Government-Catalyst-Stock-Move-Event-Study-Tech-Industrial-Minerals.md) | How do government-catalyst stocks actually move, and which type fits NB? | Calibrating catalyst expectations with observed returns | Government catalysts reliably produce **spikes**; the structural twins (LAC, MP, Perpetua, NB's own award) **faded** — durable rerates need binding money + demand together | The biggest NB-relevant moves are tradeable, not necessarily investable |
 
@@ -68,14 +68,14 @@ NioCorp is a **high-risk, development-stage critical-minerals bet** whose outcom
 
 | Kill switch | Why it matters | Document that covers it | Evidence to watch |
 |---|---|---|---|
-| EXIM rejection / indefinite delay | No disclosed Plan-B lender; forces dilutive equity | [Policy Dossier](./NioCorp-Government-Critical-Minerals-Policy-Dossier.md), [Stress Model](./NioCorp-Elk-Creek-Stress-Model.md) | EXIM board agendas; NB 8-Ks; Federal Register |
-| Updated FS worsens economics | 2022 base case could be cut on costs/recoveries | [Stress Model](./NioCorp-Elk-Creek-Stress-Model.md), [Due Diligence](./NioCorp-Elk-Creek-Due-Diligence.md) | The published updated feasibility study |
-| Capex rises materially | Widens the funding gap and dilution exactly when it hurts | [Stress Model](./NioCorp-Elk-Creek-Stress-Model.md) | Updated FS capex line; contingency adequacy |
-| Scandium demand fails | ~54% of project value is uncommitted scandium | [Due Diligence](./NioCorp-Elk-Creek-Due-Diligence.md), [Stress Model](./NioCorp-Elk-Creek-Stress-Model.md) | Offtake conversions; scandium price/volume data |
+| EXIM rejection / indefinite delay | No disclosed Plan-B lender; forces dilutive equity | [Policy Dossier](./NioCorp-Government-Critical-Minerals-Policy-Dossier.md), [Stress Model](./NioCorp-Elk-Creek-2022-FS-Stress-Test.md) | EXIM board agendas; NB 8-Ks; Federal Register |
+| Updated FS worsens economics | 2022 base case could be cut on costs/recoveries | [Stress Model](./NioCorp-Elk-Creek-2022-FS-Stress-Test.md), [Due Diligence](./NioCorp-Elk-Creek-Due-Diligence.md) | The published updated feasibility study |
+| Capex rises materially | Widens the funding gap and dilution exactly when it hurts | [Stress Model](./NioCorp-Elk-Creek-2022-FS-Stress-Test.md) | Updated FS capex line; contingency adequacy |
+| Scandium demand fails | ~54% of project value is uncommitted scandium | [Due Diligence](./NioCorp-Elk-Creek-Due-Diligence.md), [Stress Model](./NioCorp-Elk-Creek-2022-FS-Stress-Test.md) | Offtake conversions; scandium price/volume data |
 | Government buys from a competitor | DLA scandium dollars already went to Rio Tinto | [Policy Dossier](./NioCorp-Government-Critical-Minerals-Policy-Dossier.md) | DLA notices; competitor (Rio Tinto/ElementUS) awards |
-| Heavy dilution at low prices | An ~$800M raise could ~triple the share count | [Stress Model](./NioCorp-Elk-Creek-Stress-Model.md) | Equity offerings; ATM usage; share count |
+| Heavy dilution at low prices | An ~$800M raise could ~triple the share count | [Stress Model](./NioCorp-Elk-Creek-2022-FS-Stress-Test.md) | Equity offerings; ATM usage; share count |
 | No binding offtake | Term sheets (Stellantis, Traxys) aren't revenue | [Due Diligence](./NioCorp-Elk-Creek-Due-Diligence.md) | Definitive offtake agreements |
-| Construction delay | Extends burn, strains EXIM covenants | [Stress Model](./NioCorp-Elk-Creek-Stress-Model.md) | Portal progress; full-construction start |
+| Construction delay | Extends burn, strains EXIM covenants | [Stress Model](./NioCorp-Elk-Creek-2022-FS-Stress-Test.md) | Portal progress; full-construction start |
 | Technical recovery issue | Flowsheet is pre-commercial (esp. REE separation) | [Due Diligence](./NioCorp-Elk-Creek-Due-Diligence.md) | Updated FS recoveries; pilot/commercial validation |
 | Permitting / environmental block | Could stall construction or EXIM E&S review | [Due Diligence](./NioCorp-Elk-Creek-Due-Diligence.md), [Policy Dossier](./NioCorp-Government-Critical-Minerals-Policy-Dossier.md) | EXIM E&S review; state/federal permit status |
 
@@ -124,7 +124,7 @@ NioCorp is **not mainly a geology bet anymore — it is a financing, scandium-de
 
 ### Documents in this package
 - [NioCorp-Elk-Creek-Due-Diligence.md](./NioCorp-Elk-Creek-Due-Diligence.md) — 50-question disclosed-vs-undisclosed fact base
-- [NioCorp-Elk-Creek-Stress-Model.md](./NioCorp-Elk-Creek-Stress-Model.md) — 2022 technical-report capex, sensitivity, dilution, and kill-switch tables
+- [NioCorp-Elk-Creek-2022-FS-Stress-Test.md](./NioCorp-Elk-Creek-2022-FS-Stress-Test.md) — 2022 technical-report capex, sensitivity, dilution, and kill-switch tables
 - [NioCorp-Government-Critical-Minerals-Policy-Dossier.md](./NioCorp-Government-Critical-Minerals-Policy-Dossier.md) — government support graded for commitment, not rhetoric
 - [Government-Catalyst-Stock-Move-Event-Study-Tech-Industrial-Minerals.md](./Government-Catalyst-Stock-Move-Event-Study-Tech-Industrial-Minerals.md) — observed government-catalyst stock moves and NB analog ranges
 
