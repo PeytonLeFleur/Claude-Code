@@ -4,7 +4,7 @@
 **Branch:** `claude/ag-grow-visit-1elzfw`
 **Cron job:** `22ac2059` (every 3 min) — delete when iteration 10 is recorded.
 
-**Completed iterations: 6 / 10**
+**Completed iterations: 7 / 10**
 
 Guardrails honored every iteration: no invented services/claims, source-backed copy only,
 mobile not broken, phone/CTA/form never buried, no over-animation, no fake-looking visuals.
@@ -234,3 +234,39 @@ and correct mobile stacking; no page errors.
 
 **Remaining opportunities:** scroll-progress bar; section blade dividers; back-to-top;
 animated kicker underline; service-card hover lift.
+
+---
+
+## Iteration 7
+
+**Audit findings:** Long single-page site with zero orientation cues — no scroll-progress
+indicator and the nav never shows the current section. Premium/UX gap that also keeps the
+page structure legible (helps conversion).
+
+**10 ideas generated:**
+1. Thin scroll-progress bar at top of viewport (#32-ish).
+2. Active-section nav highlighting (IntersectionObserver) + underline.
+3. Section blade dividers (#46).
+4. Back-to-top button.
+5. Service-card hover lift.
+6. Animated kicker underline (#22).
+7. Smooth-scroll offset for anchor jumps under the fixed header.
+8. Reading-time/section dots rail.
+9. Hover spotlight on service cards (#31).
+10. Sticky mini section-nav on desktop.
+
+**Ideas chosen:** #1 + #2 — scroll-progress bar (position-driven, rAF-throttled, decorative
+aria-hidden) and active-section nav with an animated underline (aria-current set on the live
+link). Both orientation wins, no content change, reduced-motion safe.
+
+**Files changed:** `src/components/layout/ScrollProgress.tsx` (new),
+`src/components/layout/Header.tsx` (IntersectionObserver active section + underline +
+aria-current), `src/App.tsx` (mount ScrollProgress).
+
+**Higgsfield assets created:** none.
+
+**Commands run:** `npm run build` (pass), Playwright scroll test — confirmed `aria-current`
+lands on "Services" when that section is in view; no page errors.
+
+**Remaining opportunities:** section blade dividers; back-to-top; service-card hover lift;
+animated kicker underline; anchor scroll offset under fixed header.

@@ -2,6 +2,7 @@ import { PageShell } from './components/layout/PageShell'
 import { Header } from './components/layout/Header'
 import { Footer } from './components/layout/Footer'
 import { MobileContactBar } from './components/layout/MobileContactBar'
+import { ScrollProgress } from './components/layout/ScrollProgress'
 import { Hero } from './components/sections/Hero'
 import { TrustBar } from './components/sections/TrustBar'
 import { Programs } from './components/sections/Programs'
@@ -18,6 +19,7 @@ import { Quote } from './components/sections/Quote'
 export default function App() {
   return (
     <div className="grain">
+      <ScrollProgress />
       <Header />
       <PageShell>
         <Hero />
