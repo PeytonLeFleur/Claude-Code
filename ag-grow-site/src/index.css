@@ -1,0 +1,94 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+
+  /* Brand palette — deep turf greens + warm soil + sky */
+  --color-moss-50: #f3f8f2;
+  --color-moss-100: #e2efe0;
+  --color-moss-200: #c4ddc0;
+  --color-moss-300: #97c290;
+  --color-moss-400: #66a05c;
+  --color-moss-500: #45823c;
+  --color-moss-600: #34682d;
+  --color-moss-700: #2a5325;
+  --color-moss-800: #244320;
+  --color-moss-900: #0f2417;
+  --color-moss-950: #07150d;
+
+  --color-wheat-100: #f7f1e3;
+  --color-wheat-200: #ecddbc;
+  --color-wheat-400: #d9b873;
+  --color-wheat-500: #c69a4a;
+
+  --color-sky-soft: #cfe6f2;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-moss-950);
+  color: var(--color-moss-50);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* Lenis recommended styles */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+/* Subtle static grain overlay for filmic texture */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.will-reveal {
+  will-change: transform, opacity;
+}
+
+::selection {
+  background: var(--color-moss-400);
+  color: var(--color-moss-950);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-moss-950);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-moss-700);
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
