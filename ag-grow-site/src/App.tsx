@@ -1,6 +1,7 @@
 import { PageShell } from './components/layout/PageShell'
 import { Header } from './components/layout/Header'
 import { Footer } from './components/layout/Footer'
+import { MobileContactBar } from './components/layout/MobileContactBar'
 import { Hero } from './components/sections/Hero'
 import { TrustBar } from './components/sections/TrustBar'
 import { Programs } from './components/sections/Programs'
@@ -29,6 +30,7 @@ export default function App() {
         <Quote />
       </PageShell>
       <Footer />
+      <MobileContactBar />
     </div>
   )
 }

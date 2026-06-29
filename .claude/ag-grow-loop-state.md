@@ -4,7 +4,7 @@
 **Branch:** `claude/ag-grow-visit-1elzfw`
 **Cron job:** `22ac2059` (every 3 min) — delete when iteration 10 is recorded.
 
-**Completed iterations: 1 / 10**
+**Completed iterations: 2 / 10**
 
 Guardrails honored every iteration: no invented services/claims, source-backed copy only,
 mobile not broken, phone/CTA/form never buried, no over-animation, no fake-looking visuals.
@@ -49,3 +49,38 @@ buyer; dark hero hard-cut into the white Programs section; no visible keyboard f
 
 **Remaining opportunities:** mobile sticky call bar; animated service-area map; section
 "blade" dividers; service-card parallax; proof-band counters; scroll progress.
+
+---
+
+## Iteration 2
+
+**Audit findings:** On mobile the phone number is hidden (menu-only) and the primary CTA
+requires scrolling — real contact friction for a tap-to-call local buyer. Header CTAs are
+fine on desktop but absent in the mobile thumb zone.
+
+**10 ideas generated:**
+1. Sticky mobile contact bar (Call + Get a Quote) in the thumb zone.
+2. Scroll-progress indicator at the top of the viewport.
+3. Section "blade"/wave dividers between dark and light bands (#46).
+4. Parallax on service-card images (#9 depth gallery).
+5. Animated service-area map with pins (#23).
+6. Counters in a dedicated proof band (#counters).
+7. Click-to-call telephone schema / tel: affordances throughout.
+8. Sticky desktop "Get a Quote" that docks after hero.
+9. Hover depth/tilt on program cards (#37).
+10. Back-to-top affordance.
+
+**Ideas chosen:** #1 (sticky mobile contact bar) — highest mobile conversion, lowest risk,
+fast. Appears only after the hero so it never covers the hero CTAs; respects safe-area
+insets; hidden on md+.
+
+**Files changed:** `src/components/layout/MobileContactBar.tsx` (new), `src/App.tsx` (mount).
+
+**Higgsfield assets created:** none.
+
+**Commands run:** `npm run build` (pass), Playwright mobile (390x844) screenshot (no errors).
+
+**Errors found / fixes:** none.
+
+**Remaining opportunities:** scroll-progress bar; section blade dividers; service-card
+parallax; animated service-area map; proof-band counters; program-card hover depth.
