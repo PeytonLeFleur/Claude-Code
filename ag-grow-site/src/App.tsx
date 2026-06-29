@@ -2,6 +2,7 @@ import { PageShell } from './components/layout/PageShell'
 import { Header } from './components/layout/Header'
 import { Footer } from './components/layout/Footer'
 import { Hero } from './components/sections/Hero'
+import { TrustBar } from './components/sections/TrustBar'
 import { Programs } from './components/sections/Programs'
 import { WhyTiming } from './components/sections/WhyTiming'
 import { Process } from './components/sections/Process'
@@ -17,6 +18,7 @@ export default function App() {
       <Header />
       <PageShell>
         <Hero />
+        <TrustBar />
         <Programs />
         <WhyTiming />
         <Process />

@@ -16,6 +16,17 @@ export const BUSINESS = {
   location: 'Newton, Iowa',
 } as const
 
+/** Short, source-backed proof points for the trust marquee. No invented claims. */
+export const TRUST_POINTS = [
+  'Serving Central Iowa since 1998',
+  '18+ communities served',
+  'Free quotes within 48 hours',
+  'Salt included on every snow service',
+  'Residential & commercial',
+  'Locally owned & operated',
+  'Priority scheduling for program customers',
+] as const
+
 export const STATS = [
   { value: '1998', label: 'Serving Central Iowa since' },
   { value: '18+', label: 'Communities served' },

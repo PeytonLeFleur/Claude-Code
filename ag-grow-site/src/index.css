@@ -71,6 +71,27 @@ html.lenis body {
   will-change: transform, opacity;
 }
 
+/* Infinite trust marquee */
+.marquee {
+  animation: marquee 38s linear infinite;
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* track holds two copies; shift by half to loop seamlessly */
+    transform: translateX(-50%);
+  }
+}
+
+/* Clear keyboard focus rings for accessibility (mouse clicks stay clean) */
+:focus-visible {
+  outline: 2px solid var(--color-moss-400);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 ::selection {
   background: var(--color-moss-400);
   color: var(--color-moss-950);
@@ -90,5 +111,8 @@ html.lenis body {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .marquee {
+    animation: none;
   }
 }
