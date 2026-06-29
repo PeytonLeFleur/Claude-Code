@@ -85,6 +85,36 @@ html.lenis body {
   }
 }
 
+/* Cursor-follow sheen for tilt cards (set via --mx/--my in TiltCard) */
+.tilt-card {
+  --mx: 50%;
+  --my: 50%;
+}
+.tilt-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(
+    340px circle at var(--mx) var(--my),
+    rgba(255, 255, 255, 0.1),
+    transparent 60%
+  );
+}
+@media (hover: hover) and (pointer: fine) {
+  .tilt-card:hover::after {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tilt-card::after {
+    display: none;
+  }
+}
+
 /* Clear keyboard focus rings for accessibility (mouse clicks stay clean) */
 :focus-visible {
   outline: 2px solid var(--color-moss-400);

@@ -4,7 +4,7 @@
 **Branch:** `claude/ag-grow-visit-1elzfw`
 **Cron job:** `22ac2059` (every 3 min) — delete when iteration 10 is recorded.
 
-**Completed iterations: 5 / 10**
+**Completed iterations: 6 / 10**
 
 Guardrails honored every iteration: no invented services/claims, source-backed copy only,
 mobile not broken, phone/CTA/form never buried, no over-animation, no fake-looking visuals.
@@ -196,3 +196,41 @@ ignores native scrollIntoView) — tooling only, not a site issue.
 
 **Remaining opportunities:** scroll-progress bar; section blade dividers; program-card hover
 depth; back-to-top; hover spotlight; animated kicker underline.
+
+---
+
+## Iteration 6
+
+**Audit findings:** The Programs section is the conversion centerpiece but the cards were
+completely static — no tactile feedback where buyers decide, which undercut the premium feel.
+
+**10 ideas generated:**
+1. Pointer-driven 3D tilt + lift + cursor sheen on program cards (#37 hover depth / #31 spotlight).
+2. Scroll-progress bar.
+3. Section blade dividers (#46).
+4. Back-to-top button.
+5. Animated kicker underline (#22).
+6. Hover lift on service cards.
+7. Sticky "compare plans" mini-nav.
+8. Price-anchor microcopy reveal.
+9. Morphing CTA arrow on hover (#33).
+10. Magnetic CTA buttons inside cards (#4, already used in hero).
+
+**Ideas chosen:** #1 — a reusable TiltCard (subtle ≤5° tilt + 6px lift + radial cursor sheen)
+applied to both program cards. Animation isolated in TiltCard; ScrollReveal still handles
+entrance. Disabled on touch (hover/pointer media query) and under reduced motion.
+
+**Files changed:** `src/components/animation/TiltCard.tsx` (new),
+`src/components/sections/Programs.tsx` (wrap cards in TiltCard, move card visuals onto it),
+`src/index.css` (.tilt-card sheen + reduced-motion/touch guards).
+
+**Higgsfield assets created:** none.
+
+**Commands run:** `npm run build` (pass), Playwright desktop hover + mobile (390) screenshots.
+
+**Errors found / fixes:** Removed the highlighted card's `lg:-translate-y-3` (conflicted with
+GSAP transforms); prominence now from dark bg + shadow + badge. Verified equal-height cards
+and correct mobile stacking; no page errors.
+
+**Remaining opportunities:** scroll-progress bar; section blade dividers; back-to-top;
+animated kicker underline; service-card hover lift.

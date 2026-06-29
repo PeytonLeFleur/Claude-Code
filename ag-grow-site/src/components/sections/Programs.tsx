@@ -1,5 +1,6 @@
 import { ScrollReveal } from '../animation/ScrollReveal'
 import { AnimatedHeadline } from '../animation/AnimatedHeadline'
+import { TiltCard } from '../animation/TiltCard'
 import { PROGRAMS } from '../../lib/content'
 
 export function Programs() {
@@ -28,15 +29,14 @@ export function Programs() {
           {PROGRAMS.map((program, i) => {
             const highlighted = program.badge != null
             return (
-              <ScrollReveal
-                key={program.id}
-                delay={i * 0.12}
-                className={`group relative flex flex-col rounded-3xl border p-8 transition-all duration-300 sm:p-10 ${
-                  highlighted
-                    ? 'border-moss-900 bg-moss-900 text-moss-50 shadow-2xl shadow-moss-900/20 lg:-translate-y-3'
-                    : 'border-moss-200 bg-white hover:border-moss-300 hover:shadow-xl'
-                }`}
-              >
+              <ScrollReveal key={program.id} delay={i * 0.12} className="relative">
+                <TiltCard
+                  className={`flex h-full flex-col rounded-3xl border p-8 sm:p-10 ${
+                    highlighted
+                      ? 'border-moss-900 bg-moss-900 text-moss-50 shadow-2xl shadow-moss-900/20'
+                      : 'border-moss-200 bg-white transition-colors hover:border-moss-300'
+                  }`}
+                >
                 {program.badge && (
                   <span className="absolute -top-3 left-8 rounded-full bg-moss-400 px-4 py-1 text-xs font-700 uppercase tracking-wide text-moss-950">
                     {program.badge}
@@ -101,6 +101,7 @@ export function Programs() {
                   Get a quote for {program.name === 'Base Program' ? 'Base' : 'Turf Protection'}
                   <span>→</span>
                 </a>
+                </TiltCard>
               </ScrollReveal>
             )
           })}
