@@ -208,6 +208,34 @@ export const SERVICE_TYPES = [
   'Not Sure / Multiple Services',
 ] as const
 
+/** FAQs — every answer is drawn from the ag-grow.com scrape. No invented claims. */
+export const FAQS = [
+  {
+    q: 'How much do your lawn care programs cost?',
+    a: 'Every quote is based on your lawn’s actual square footage, measured on-site — so you only pay for your property. Request a free quote and we’ll get back to you, typically within 48 hours.',
+  },
+  {
+    q: 'What’s the difference between the Base and Turf Protection programs?',
+    a: 'The Base Program covers seasonal fertilization, weed control, 2-step pre-emergent crabgrass control, and a late-fall winterizer. Base + Turf Protection adds preventative fungicide (2 applications), grub control, core aeration, and a 5% discount on all applications.',
+  },
+  {
+    q: 'What areas do you serve?',
+    a: 'Newton and 18 surrounding Central Iowa communities, including Grinnell, Pella, Baxter, Colfax, Monroe, and Prairie City. Lawn-care programs are available across the whole area; mowing, leaf, and snow coverage vary by town, so call to confirm.',
+  },
+  {
+    q: 'How often will you mow, and how short?',
+    a: 'Weekly or bi-weekly, with the grass cut to a healthy 3.5". Trimming, edging, and clippings are managed on every visit, and scheduling is weather-based.',
+  },
+  {
+    q: 'How does snow removal pricing work?',
+    a: 'Per-event or seasonal contract, with salt included. Pricing is tiered by accumulation (1–3", 4–7", 8–11", 12"+), and you set your own trigger depth (1", 2–3", or 4"+). Current lawn-care program customers receive priority scheduling.',
+  },
+  {
+    q: 'Why does treatment timing matter so much?',
+    a: 'Each application builds on the last. Pre-emergent has to go down before crabgrass germinates, and fungicide is preventative rather than reactive — so skipping or mistiming a single step undercuts the results of the whole program.',
+  },
+] as const
+
 export const PROCESS = [
   {
     step: '01',

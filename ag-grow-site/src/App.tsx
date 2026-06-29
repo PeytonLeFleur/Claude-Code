@@ -11,6 +11,7 @@ import { Services } from './components/sections/Services'
 import { BeforeAfter } from './components/sections/BeforeAfter'
 import { SnowBand } from './components/sections/SnowBand'
 import { ServiceArea } from './components/sections/ServiceArea'
+import { Faq } from './components/sections/Faq'
 import { Quote } from './components/sections/Quote'
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
         <BeforeAfter />
         <SnowBand />
         <ServiceArea />
+        <Faq />
         <Quote />
       </PageShell>
       <Footer />
