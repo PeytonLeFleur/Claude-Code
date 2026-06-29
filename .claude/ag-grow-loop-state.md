@@ -4,7 +4,7 @@
 **Branch:** `claude/ag-grow-visit-1elzfw`
 **Cron job:** `22ac2059` (every 3 min) — delete when iteration 10 is recorded.
 
-**Completed iterations: 3 / 10**
+**Completed iterations: 4 / 10**
 
 Guardrails honored every iteration: no invented services/claims, source-backed copy only,
 mobile not broken, phone/CTA/form never buried, no over-animation, no fake-looking visuals.
@@ -120,3 +120,41 @@ aria-controls), reduced-motion safe.
 
 **Remaining opportunities:** scroll-progress bar; section blade dividers; service-card
 parallax; animated service-area map; program-card hover depth; back-to-top.
+
+---
+
+## Iteration 4
+
+**Audit findings:** Service Area section told but didn't *show* coverage — just a static chip
+list. User explicitly prioritized service-area motion (#23). Opportunity for local
+credibility + premium visual.
+
+**10 ideas generated:**
+1. Stylized coverage-hub diagram (Newton center, radar rings, town nodes) — #22/#23.
+2. Literal geo map (rejected — risk of inaccurate coordinates / fake feel).
+3. Service-card image parallax (#9).
+4. Program-card hover tilt (#37).
+5. Scroll-progress bar.
+6. Animated SVG underline on kickers (#22).
+7. Back-to-top button.
+8. Counters proof band.
+9. Section blade dividers (#46).
+10. Hover spotlight on cards (#31).
+
+**Ideas chosen:** #1 (coverage-hub diagram). Abstract hub (clearly not a literal map, so no
+false geography), Newton centered with pulsing node, radar range rings drawing outward on
+scroll, town nodes with labels staggering in. Town names ALSO kept as readable chip text
+below for SEO + screen readers.
+
+**Files changed:** `src/components/sections/ServiceAreaMap.tsx` (new SVG),
+`src/components/sections/ServiceArea.tsx` (swap chip grid for map + keep readable town list).
+
+**Higgsfield assets created:** none.
+
+**Commands run:** `npm run build` (pass), Playwright desktop + mobile (390) screenshots.
+
+**Errors found / fixes:** edge town labels clipped the viewBox — fixed by padding the
+viewBox to `-48 -12 496 424`. Re-verified desktop + mobile, no clipping, no page errors.
+
+**Remaining opportunities:** scroll-progress bar; section blade dividers; service-card
+parallax; program-card hover depth; back-to-top; hover spotlight.

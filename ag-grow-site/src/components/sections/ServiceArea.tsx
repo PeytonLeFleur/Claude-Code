@@ -1,5 +1,6 @@
 import { ScrollReveal } from '../animation/ScrollReveal'
 import { AnimatedHeadline } from '../animation/AnimatedHeadline'
+import { ServiceAreaMap } from './ServiceAreaMap'
 import { SERVICE_AREA, BUSINESS } from '../../lib/content'
 
 export function ServiceArea() {
@@ -46,22 +47,27 @@ export function ServiceArea() {
             </ScrollReveal>
           </div>
 
-          {/* Town chips */}
-          <ScrollReveal
-            stagger={0.03}
-            className="grid grid-cols-2 gap-2.5 self-center sm:grid-cols-3"
-          >
-            {SERVICE_AREA.map((town) => (
-              <div
-                key={town}
-                className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-moss-100/85 transition-colors hover:border-moss-400/30 hover:bg-white/[0.06]"
-              >
-                <span className="h-1.5 w-1.5 flex-none rounded-full bg-moss-400" />
-                {town}
-              </div>
-            ))}
-          </ScrollReveal>
+          {/* Coverage hub diagram */}
+          <div className="mx-auto w-full max-w-md self-center">
+            <ServiceAreaMap />
+          </div>
         </div>
+
+        {/* Full town list — readable text for SEO + screen readers */}
+        <ScrollReveal
+          stagger={0.025}
+          className="mt-14 flex flex-wrap justify-center gap-2"
+        >
+          {SERVICE_AREA.map((town) => (
+            <span
+              key={town}
+              className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm text-moss-100/85"
+            >
+              <span className="h-1.5 w-1.5 flex-none rounded-full bg-moss-400" />
+              {town}
+            </span>
+          ))}
+        </ScrollReveal>
       </div>
     </section>
   )
