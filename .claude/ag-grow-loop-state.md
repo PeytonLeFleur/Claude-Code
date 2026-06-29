@@ -4,7 +4,7 @@
 **Branch:** `claude/ag-grow-visit-1elzfw`
 **Cron job:** `22ac2059` (every 3 min) — delete when iteration 10 is recorded.
 
-**Completed iterations: 7 / 10**
+**Completed iterations: 8 / 10**
 
 Guardrails honored every iteration: no invented services/claims, source-backed copy only,
 mobile not broken, phone/CTA/form never buried, no over-animation, no fake-looking visuals.
@@ -270,3 +270,41 @@ lands on "Services" when that section is in view; no page errors.
 
 **Remaining opportunities:** section blade dividers; back-to-top; service-card hover lift;
 animated kicker underline; anchor scroll offset under fixed header.
+
+---
+
+## Iteration 8
+
+**Audit findings:** Two real correctness bugs: (1) og:image pointed to /images/hero.jpg,
+which doesn't exist (renamed after-mow.jpg) — social shares had no preview, and no Twitter
+card/canonical existed; (2) nav-link jumps tucked section headings under the fixed header
+(no scroll-margin-top).
+
+**10 ideas generated:**
+1. Fix og:image to a real, absolute URL.
+2. Add Twitter summary_large_image card tags.
+3. Add canonical + og:url + og:site_name.
+4. scroll-margin-top on anchor-target sections.
+5. Back-to-top button.
+6. Section blade dividers (#46).
+7. Service-card hover lift.
+8. Preload the hero image for LCP.
+9. Width/height on images to cut CLS.
+10. sitemap.xml / robots.txt.
+
+**Ideas chosen:** #1–#4 (grouped SEO + UX correctness). Real bug fixes, zero content risk.
+
+**Files changed:** `index.html` (og:image -> https://www.ag-grow.com/images/after-mow.jpg,
+og:url, og:site_name, og:image:alt, twitter card tags, canonical),
+`src/index.css` (section[id] { scroll-margin-top: 5.5rem }).
+
+**Higgsfield assets created:** none.
+
+**Commands run:** `npm run build` (pass); confirmed built dist/index.html references the
+existing image; Playwright nav-click test shows #services lands at 88px (clear of header).
+
+**Errors found / fixes:** the broken OG image path was itself the bug being fixed. No new
+errors.
+
+**Remaining opportunities:** back-to-top; service-card hover lift; section dividers; hero
+preload for LCP; sitemap/robots; image width/height for CLS.
