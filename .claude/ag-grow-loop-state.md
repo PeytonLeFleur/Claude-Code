@@ -4,7 +4,7 @@
 **Branch:** `claude/ag-grow-visit-1elzfw`
 **Cron job:** `22ac2059` (every 3 min) — delete when iteration 10 is recorded.
 
-**Completed iterations: 9 / 10**
+**Completed iterations: 10 / 10 — COMPLETE. Cron job 22ac2059 deleted.**
 
 Guardrails honored every iteration: no invented services/claims, source-backed copy only,
 mobile not broken, phone/CTA/form never buried, no over-animation, no fake-looking visuals.
@@ -344,3 +344,41 @@ sandbox blocking Google Fonts — environment artifact, not a site bug; fonts us
 
 **Remaining opportunities:** back-to-top; service-card hover lift; section dividers; image
 width/height for CLS; WebP variants.
+
+---
+
+## Iteration 10 (final)
+
+**Audit findings:** Accessibility gaps remained — keyboard users had no skip-to-content link
+(must tab through the whole nav each load), and the long page had no back-to-top affordance.
+
+**10 ideas generated:**
+1. Skip-to-content link for keyboard users.
+2. Back-to-top button (clears the mobile contact bar, reduced-motion aware).
+3. Service-card hover lift.
+4. Section dividers (#46).
+5. Image width/height for CLS.
+6. WebP image variants.
+7. Focus trap for the mobile menu.
+8. prefers-reduced-motion audit pass.
+9. aria-labels on icon-only controls.
+10. Visible focus state on the before/after scrubber handle.
+
+**Ideas chosen:** #1 + #2 — skip link (sr-only until focused, jumps to #main-content) and a
+back-to-top button (appears after 1.2 viewports, reduced-motion aware, keyboard accessible,
+positioned to clear the mobile contact bar).
+
+**Files changed:** `src/components/layout/BackToTop.tsx` (new),
+`src/components/layout/PageShell.tsx` (id="main-content" on <main>),
+`src/App.tsx` (skip link + mount BackToTop).
+
+**Higgsfield assets created:** none.
+
+**Commands run:** `npm run build` (pass); Playwright keyboard test — first Tab focuses a
+visible "Skip to content" link; back-to-top reaches opacity 1 after scroll; no page errors.
+
+**Errors found / fixes:** none.
+
+**Remaining opportunities (unimplemented):** service-card hover lift; section "blade"
+dividers; image width/height + WebP for CLS/perf; mobile-menu focus trap; visible focus
+state on the before/after handle.

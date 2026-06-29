@@ -12,5 +12,9 @@ export function PageShell({ children }: { children: ReactNode }) {
     return () => window.clearTimeout(id)
   }, [])
 
-  return <main className="relative">{children}</main>
+  return (
+    <main id="main-content" className="relative">
+      {children}
+    </main>
+  )
 }

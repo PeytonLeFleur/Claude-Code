@@ -3,6 +3,7 @@ import { Header } from './components/layout/Header'
 import { Footer } from './components/layout/Footer'
 import { MobileContactBar } from './components/layout/MobileContactBar'
 import { ScrollProgress } from './components/layout/ScrollProgress'
+import { BackToTop } from './components/layout/BackToTop'
 import { Hero } from './components/sections/Hero'
 import { TrustBar } from './components/sections/TrustBar'
 import { Programs } from './components/sections/Programs'
@@ -19,6 +20,12 @@ import { Quote } from './components/sections/Quote'
 export default function App() {
   return (
     <div className="grain">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-full focus:bg-moss-400 focus:px-5 focus:py-3 focus:font-600 focus:text-moss-950"
+      >
+        Skip to content
+      </a>
       <ScrollProgress />
       <Header />
       <PageShell>
@@ -37,6 +44,7 @@ export default function App() {
       </PageShell>
       <Footer />
       <MobileContactBar />
+      <BackToTop />
     </div>
   )
 }
