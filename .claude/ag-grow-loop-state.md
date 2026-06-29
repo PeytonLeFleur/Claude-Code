@@ -4,7 +4,7 @@
 **Branch:** `claude/ag-grow-visit-1elzfw`
 **Cron job:** `22ac2059` (every 3 min) — delete when iteration 10 is recorded.
 
-**Completed iterations: 8 / 10**
+**Completed iterations: 9 / 10**
 
 Guardrails honored every iteration: no invented services/claims, source-backed copy only,
 mobile not broken, phone/CTA/form never buried, no over-animation, no fake-looking visuals.
@@ -308,3 +308,39 @@ errors.
 
 **Remaining opportunities:** back-to-top; service-card hover lift; section dividers; hero
 preload for LCP; sitemap/robots; image width/height for CLS.
+
+---
+
+## Iteration 9
+
+**Audit findings:** As a React SPA, the hero LCP image only starts downloading after the JS
+bundle executes (real LCP cost). No robots.txt or sitemap.xml for crawlers.
+
+**10 ideas generated:**
+1. Preload the hero image for faster LCP.
+2. robots.txt allowing crawl + sitemap reference.
+3. sitemap.xml (single homepage URL).
+4. Non-blocking font load (rejected — risks serif FOUT; display=swap already handles it).
+5. Width/height on images for CLS.
+6. Back-to-top button.
+7. Lazy-mount heavy below-fold sections (rejected — complexity/risk this late).
+8. Service-card hover lift.
+9. Section dividers (#46).
+10. Compress/serve WebP variants (rejected — current JPGs already small, ~2MB total).
+
+**Ideas chosen:** #1–#3 — preload hero (LCP), robots.txt, sitemap.xml. All low-risk
+perf/crawlability wins; no content or layout change.
+
+**Files changed:** `index.html` (hero image preload), `public/robots.txt` (new),
+`public/sitemap.xml` (new).
+
+**Higgsfield assets created:** none.
+
+**Commands run:** `npm run build` (pass); confirmed robots.txt + sitemap.xml copied to dist
+and served 200; verified no "preload unused" warning (URL matches the hero img exactly).
+
+**Errors found / fixes:** none. (The ERR_CONNECTION_CLOSED in the headless console is the
+sandbox blocking Google Fonts — environment artifact, not a site bug; fonts use display=swap.)
+
+**Remaining opportunities:** back-to-top; service-card hover lift; section dividers; image
+width/height for CLS; WebP variants.
