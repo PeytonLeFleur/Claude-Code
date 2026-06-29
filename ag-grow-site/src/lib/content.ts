@@ -27,6 +27,21 @@ export const TRUST_POINTS = [
   'Priority scheduling for program customers',
 ] as const
 
+/** "Our story" — drawn from the ag-grow.com About page. No invented claims. */
+export const ABOUT = {
+  heading: 'Locally owned and operated since 1998.',
+  body: [
+    'Ag Grow Plus Lawncare was established in 1998 as a lawn-care service for Jasper County homeowners. Over nearly three decades it has grown into a full-service company serving Central Iowa.',
+    'What started as fertilization and weed control now includes mowing, leaf removal, and snow removal — built on the same founding principle: quality work and lasting customer relationships.',
+  ],
+  pillars: [
+    { value: '1998', label: 'Founded in Jasper County' },
+    { value: '25+ yrs', label: 'Caring for Central Iowa lawns' },
+    { value: 'Local', label: 'Crews who know the region’s turf' },
+    { value: 'Res. + Comm.', label: 'Residential & commercial clients' },
+  ],
+} as const
+
 export const STATS = [
   { value: '1998', label: 'Serving Central Iowa since' },
   { value: '18+', label: 'Communities served' },

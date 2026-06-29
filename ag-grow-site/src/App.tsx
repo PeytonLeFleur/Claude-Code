@@ -10,6 +10,7 @@ import { Process } from './components/sections/Process'
 import { Services } from './components/sections/Services'
 import { BeforeAfter } from './components/sections/BeforeAfter'
 import { SnowBand } from './components/sections/SnowBand'
+import { Story } from './components/sections/Story'
 import { ServiceArea } from './components/sections/ServiceArea'
 import { Faq } from './components/sections/Faq'
 import { Quote } from './components/sections/Quote'
@@ -27,6 +28,7 @@ export default function App() {
         <Services />
         <BeforeAfter />
         <SnowBand />
+        <Story />
         <ServiceArea />
         <Faq />
         <Quote />

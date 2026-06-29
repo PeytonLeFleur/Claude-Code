@@ -4,7 +4,7 @@
 **Branch:** `claude/ag-grow-visit-1elzfw`
 **Cron job:** `22ac2059` (every 3 min) — delete when iteration 10 is recorded.
 
-**Completed iterations: 4 / 10**
+**Completed iterations: 5 / 10**
 
 Guardrails honored every iteration: no invented services/claims, source-backed copy only,
 mobile not broken, phone/CTA/form never buried, no over-animation, no fake-looking visuals.
@@ -158,3 +158,41 @@ viewBox to `-48 -12 496 424`. Re-verified desktop + mobile, no clipping, no page
 
 **Remaining opportunities:** scroll-progress bar; section blade dividers; service-card
 parallax; program-card hover depth; back-to-top; hover spotlight.
+
+---
+
+## Iteration 5
+
+**Audit findings:** Biggest gap was credibility content — the scrape has a real founding
+story (established 1998 in Jasper County, grown from fertilization into full-service) but the
+site never told "who you're hiring." No about/story beat existed at all.
+
+**10 ideas generated:**
+1. "Locally owned since 1998" story section + credibility pillars (source-backed).
+2. Parallax accent image (#9) inside that section.
+3. Program-card hover tilt (#37).
+4. Scroll-progress bar.
+5. Section blade dividers (#46).
+6. Back-to-top button.
+7. Animated SVG underline on kickers (#22).
+8. Team headshots (rejected — would need real photos; AI faces look fake; avoid).
+9. Hover spotlight on cards (#31).
+10. Counters in story pillars.
+
+**Ideas chosen:** #1 + #2 — story section with a parallax macro-turf image, founding copy,
+a "1998" badge, and four credibility pillars (Founded 1998 / 25+ yrs / Local crews /
+Residential & commercial). All facts from the About scrape; no staff names or invented
+claims. Combines the missing trust content with the prioritized image-parallax effect.
+
+**Files changed:** `src/lib/content.ts` (ABOUT), `src/components/sections/Story.tsx` (new),
+`src/App.tsx` (mount between SnowBand and ServiceArea).
+
+**Higgsfield assets created:** none (reused existing lawn-care.jpg; avoided AI people).
+
+**Commands run:** `npm run build` (pass), Playwright screenshot (no errors).
+
+**Errors found / fixes:** none in code. Screenshot harness needed wheel-scrolling (Lenis
+ignores native scrollIntoView) — tooling only, not a site issue.
+
+**Remaining opportunities:** scroll-progress bar; section blade dividers; program-card hover
+depth; back-to-top; hover spotlight; animated kicker underline.
