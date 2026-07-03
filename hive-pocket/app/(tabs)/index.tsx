@@ -4,7 +4,15 @@ import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useHiveStore } from '@/lib/store';
 import { buildDashboard, sortByUrgency } from '@/lib/dashboard';
+import { riskColor, type ColonyRiskLevel } from '@/lib/risk';
 import { HiveCard } from '@/components/HiveCard';
+
+const SUMMARY_ORDER: { level: ColonyRiskLevel; label: string }[] = [
+  { level: 'urgent', label: 'urgent' },
+  { level: 'watch', label: 'watch' },
+  { level: 'ok', label: 'ok' },
+  { level: 'unknown', label: 'new' },
+];
 
 export default function ApiaryDashboard() {
   const router = useRouter();
@@ -22,6 +30,14 @@ export default function ApiaryDashboard() {
     [apiaries, hives, inspections, treatments, tasks],
   );
 
+  const summary = useMemo(() => {
+    const counts: Record<ColonyRiskLevel, number> = { urgent: 0, watch: 0, ok: 0, unknown: 0 };
+    cards.forEach((c) => {
+      counts[c.risk.level] += 1;
+    });
+    return counts;
+  }, [cards]);
+
   const newHive = () => router.push('/hive/new');
 
   return (
@@ -31,6 +47,18 @@ export default function ApiaryDashboard() {
         <Text style={styles.sub}>
           {hives.length} {hives.length === 1 ? 'hive' : 'hives'} · save-first, works offline
         </Text>
+        {hives.length > 0 ? (
+          <View style={styles.summary}>
+            {SUMMARY_ORDER.filter((s) => summary[s.level] > 0).map((s) => (
+              <View key={s.level} style={styles.pill}>
+                <View style={[styles.dot, { backgroundColor: riskColor(s.level) }]} />
+                <Text style={styles.pillText}>
+                  {summary[s.level]} {s.label}
+                </Text>
+              </View>
+            ))}
+          </View>
+        ) : null}
       </View>
 
       <FlatList
@@ -66,6 +94,20 @@ const styles = StyleSheet.create({
   header: { paddingHorizontal: 16, paddingTop: 8, paddingBottom: 12 },
   h1: { fontSize: 32, fontWeight: '800', color: '#1c1917' },
   sub: { fontSize: 14, color: '#78716c', marginTop: 2 },
+  summary: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 10 },
+  pill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#fffdf7',
+    borderWidth: 1,
+    borderColor: '#e7e0d3',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 999,
+  },
+  dot: { width: 10, height: 10, borderRadius: 5 },
+  pillText: { fontSize: 13, fontWeight: '600', color: '#57534e' },
   empty: { alignItems: 'center', paddingHorizontal: 32, gap: 8 },
   emptyContainer: { flexGrow: 1, justifyContent: 'center' },
   emptyTitle: { fontSize: 20, fontWeight: '700', color: '#44403c' },

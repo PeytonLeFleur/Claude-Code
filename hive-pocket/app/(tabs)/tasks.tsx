@@ -46,9 +46,15 @@ export default function TasksScreen() {
               <Text style={[styles.rowTitle, item.done && styles.doneText]}>
                 {item.title}
               </Text>
-              <Text style={styles.rowMeta}>
+              <Text
+                style={[
+                  styles.rowMeta,
+                  !item.done && new Date(item.dueAt).getTime() < Date.now() && styles.overdue,
+                ]}
+              >
                 {hiveName.get(item.hiveId) ?? 'Hive'} · due{' '}
                 {new Date(item.dueAt).toLocaleDateString()}
+                {!item.done && new Date(item.dueAt).getTime() < Date.now() ? ' · overdue' : ''}
               </Text>
             </View>
           </Pressable>
@@ -98,6 +104,7 @@ const styles = StyleSheet.create({
   rowTitle: { fontSize: 17, fontWeight: '600', color: '#1c1917' },
   doneText: { textDecorationLine: 'line-through', color: '#a8a29e' },
   rowMeta: { fontSize: 13, color: '#78716c', marginTop: 2 },
+  overdue: { color: '#dc2626', fontWeight: '700' },
   empty: { alignItems: 'center', paddingHorizontal: 32, gap: 8 },
   emptyContainer: { flexGrow: 1, justifyContent: 'center' },
   emptyTitle: { fontSize: 20, fontWeight: '700', color: '#44403c' },

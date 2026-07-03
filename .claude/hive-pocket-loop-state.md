@@ -6,7 +6,7 @@ one guarded iteration at a time, then a final report.
 **App root:** `hive-pocket/`
 **Cron job:** `7d774d61` (every ~6 min) — delete when the loop is recorded COMPLETE.
 
-**Completed iterations: 3 / target ~10.**
+**Completed iterations: 4 / target ~10.**
 
 ---
 
@@ -34,7 +34,7 @@ this sandbox — native and purchase paths are flagged for on-device review, nev
 - [x] 1. Hive/apiary setup UI + CSV import/export (surfaced in a Data tab)
 - [x] 2. Offline inspection form with giant tap targets
 - [x] 3. Photo attachments (real, cross-platform) + voice-to-note (interface stubbed/flagged)
-- [ ] 4. Risk dashboard polish + next-action reminder generation
+- [x] 4. Risk dashboard polish + next-action reminder generation
 - [ ] 5. Mite-count calculator screen + treatment reminder scheduling
 - [ ] 6. Cloud backup + annual subscription paywall (scaffold-and-flag)
 - [ ] 7. Mentor/helper read-only sharing
@@ -209,3 +209,43 @@ image-picker bundles cleanly on web).
 **Remaining opportunities:** real on-device STT wiring + camera capture (dev build); AI
 note-cleanup (assist-only, disclaimed). Next up: item 4 — risk dashboard polish + auto-generating
 next-action reminders (tasks) from inspections/treatments.
+
+---
+
+## Iteration 4 — Reminder engine + dashboard polish
+
+**Audit findings:** The Tasks screen read `store.tasks` but **nothing ever created a task** — the
+headline "automatic next-action reminders" was entirely missing. The dashboard sorted by urgency
+but gave no at-a-glance summary.
+
+**~10 ideas:** pure reminder suggestions from an inspection; from a treatment follow-up window;
+mite-driven recheck/treatment (sourced disclaimer); queen/stores-driven tasks; dedup vs open
+tasks; wire into inspection save; dashboard risk-summary header; overdue highlighting; configurable
+interval (defer); snooze (defer).
+
+**Chosen:** the reminder engine (pure, tested, deduped, wired into save) + dashboard summary bar
++ overdue styling.
+
+**Built:**
+- `lib/reminders.ts` (pure, tested): `suggestTasksForInspection` (routine inspection at a 14-day
+  default; feeding on light/empty stores; queen follow-up; mite recheck at moderate, plan-treatment
+  at high **with a "confirm against local guidance" caveat**), `suggestTasksForTreatment`
+  (follow-up at the withdrawal window), `taskKey` + `newTaskDrafts` (dedup vs OPEN tasks, collapses
+  in-batch dupes). `__tests__/reminders.test.ts` (+11 cases).
+- `lib/store.ts`: `addTasks(drafts)` — adds only non-duplicate drafts, returns count.
+- `app/inspect/[hiveId].tsx`: on save, auto-generates reminders from the new inspection.
+- `app/(tabs)/index.tsx`: risk-summary pills (urgent/watch/ok/new counts, colour-dotted).
+- `app/(tabs)/tasks.tsx`: overdue tasks render red with an "· overdue" tag.
+
+**Model routing:** current session model only. Fable not invoked. No merge, no PR.
+
+**Commands run:** `npx tsc --noEmit` · `npx eslint .` · `npx jest` (56/56) · `npx expo export
+--platform web` (12 routes).
+
+**Errors found / fixes:** tsc flagged a test-only excess-property error (object literal with extra
+`dueAt` passed to `taskKey`) that ts-jest had tolerated — assigned to a variable to satisfy the
+strict gate. Caught precisely because typecheck runs on the whole tree, tests included.
+
+**Remaining opportunities:** treatment-logging UI to feed `suggestTasksForTreatment`; configurable
+inspection interval; task snooze/reschedule. Next up: item 5 — mite-count calculator screen +
+treatment logging with reminder scheduling.

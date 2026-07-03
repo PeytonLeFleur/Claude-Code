@@ -13,6 +13,7 @@ import type {
   Treatment,
   HiveData,
 } from './types';
+import { newTaskDrafts, type TaskDraft } from './reminders';
 
 // Monotonic-ish id without pulling a uuid native dep. Fine for local records;
 // server-authoritative ids arrive with cloud sync.
@@ -28,6 +29,8 @@ export interface HiveState extends HiveData {
   addInspection: (insp: Omit<Inspection, 'id'>) => Inspection;
   addTreatment: (t: Omit<Treatment, 'id'>) => Treatment;
   addTask: (t: Omit<Task, 'id' | 'done'>) => Task;
+  /** Add several task drafts, skipping ones that duplicate an open task. Returns how many were added. */
+  addTasks: (drafts: TaskDraft[]) => number;
   toggleTask: (id: string) => void;
   /** Bulk-create hives from parsed CSV rows, reusing apiaries by name. */
   importHives: (rows: { apiary: string; hive: string; installedAt?: string }[]) => number;
@@ -89,6 +92,14 @@ export const useHiveStore = create<HiveState>()(
         const full: Task = { ...t, id: localId('tk'), done: false };
         set((s) => ({ tasks: [...s.tasks, full] }));
         return full;
+      },
+
+      addTasks: (drafts) => {
+        const fresh = newTaskDrafts(get().tasks, drafts);
+        if (fresh.length === 0) return 0;
+        const created = fresh.map((d) => ({ ...d, id: localId('tk'), done: false }));
+        set((s) => ({ tasks: [...s.tasks, ...created] }));
+        return fresh.length;
       },
 
       toggleTask: (id) =>

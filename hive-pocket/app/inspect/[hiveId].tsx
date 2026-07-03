@@ -13,6 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import { useHiveStore } from '@/lib/store';
 import { colonyRisk } from '@/lib/risk';
+import { suggestTasksForInspection } from '@/lib/reminders';
 import { mergePhotos, removePhoto, MAX_PHOTOS } from '@/lib/photos';
 import { DICTATION } from '@/lib/dictation';
 import { SegmentedField } from '@/components/SegmentedField';
@@ -32,6 +33,7 @@ export default function Inspect() {
   const router = useRouter();
   const hive = useHiveStore((s) => s.hives.find((h) => h.id === hiveId));
   const addInspection = useHiveStore((s) => s.addInspection);
+  const addTasks = useHiveStore((s) => s.addTasks);
 
   const [queen, setQueen] = useState<QueenStatus>(INSPECTION_DEFAULTS.queen);
   const [brood, setBrood] = useState<BroodStatus>(INSPECTION_DEFAULTS.brood);
@@ -88,7 +90,7 @@ export default function Inspect() {
 
   const onSave = () => {
     if (!hiveId) return;
-    addInspection({
+    const insp = addInspection({
       hiveId,
       date: new Date().toISOString(),
       queen,
@@ -98,6 +100,8 @@ export default function Inspect() {
       note: note.trim() || undefined,
       photos: photos.length ? photos : undefined,
     });
+    // Auto-generate next-action reminders (deduped against open tasks).
+    addTasks(suggestTasksForInspection(insp, new Date()));
     router.back();
   };
 
