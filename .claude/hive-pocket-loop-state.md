@@ -4,9 +4,10 @@
 one guarded iteration at a time, then a final report.
 **Branch:** `claude/model-routing-safeguards-f4ed3o`
 **App root:** `hive-pocket/`
-**Cron job:** `7d774d61` (every ~6 min) — delete when the loop is recorded COMPLETE.
+**Cron job:** `7d774d61` — DELETED at MVP-complete (this iteration).
 
-**Completed iterations: 5 / target ~10.**
+**STATUS: COMPLETE — MVP feature-complete (build-order items 1–6 done).**
+**Completed iterations: 6.**
 
 ---
 
@@ -36,7 +37,7 @@ this sandbox — native and purchase paths are flagged for on-device review, nev
 - [x] 3. Photo attachments (real, cross-platform) + voice-to-note (interface stubbed/flagged)
 - [x] 4. Risk dashboard polish + next-action reminder generation
 - [x] 5. Mite-count calculator screen + treatment logging with reminder scheduling
-- [ ] 6. Cloud backup + annual subscription paywall (scaffold-and-flag)
+- [x] 6. Cloud backup + annual subscription paywall (scaffold-and-flag)
 - [ ] 7. Mentor/helper read-only sharing
 - [ ] 8. Advanced reports + club/sideliner features
 
@@ -291,3 +292,74 @@ the loop: always `cd hive-pocket` in the gate command.
 **Remaining opportunities:** treatment entries on the timeline; configurable inspection interval.
 Next up: item 6 — cloud backup + annual subscription paywall (scaffold-and-flag money lane), the
 last MVP item.
+
+---
+
+## Iteration 6 — Cloud backup + paywall gating (scaffold-and-flag)
+
+**Audit findings:** The payments layer + paywall screen existed but nothing routed to the paywall
+or gated anything; `useEntitlement` was unused. No cloud backup (store had `snapshot`/`hydrate`
+only). Free-tier limits weren't enforced.
+
+**~10 ideas:** pure free-tier gate; wire add-hive → paywall; versioned backup envelope; guarded
+push/pull; Backup button on Data tab; `backups` migration; last-backed-up metadata; account/
+sign-in screen (defer); restore reconciler; real RC offering wiring (reject — needs real keys/device).
+
+**Chosen:** pure free-tier gate wired so the paywall is reachable + cloud-backup envelope (tested)
+with a guarded, flagged sync layer + the `backups` migration. All money/migration bits flagged,
+never wired to real credentials.
+
+**Built:**
+- `lib/entitlements.ts` (pure, tested): `FREE_HIVE_LIMIT=2`, `canAddHive`, `hivesRemaining`.
+  Gates hive COUNT only — export/data are never gated.
+- `lib/backup.ts` (pure, tested): versioned `BackupEnvelope`, `buildBackup`, `readBackup`
+  (validates version + shape), `isBackupConfigured`.
+- `lib/backupSync.ts` (flagged scaffold): `pushBackup`/`pullBackup` against Supabase `backups`,
+  inert with a clear message until Supabase + sign-in are configured. Kept separate so the pure
+  envelope stays ts-jest-testable.
+- `supabase/migrations/0002_backups.sql` (flagged): per-user backup table, RLS own-row.
+- Wired: dashboard "+ Add hive" routes free users to `/paywall` past the limit (`useEntitlement`);
+  Data tab gains a flagged "Back up now" with honest status.
+
+**Model routing:** current session model only. Fable not invoked. No merge, no PR. The money/
+migration surfaces (paywall, RC keys, Supabase migrations, rc-webhook, backups) remain scaffolded
+and flagged for human review + real credentials on a dev build — never shipped autonomously.
+
+**Commands run (from `hive-pocket/`):** `npx tsc --noEmit` · `npx eslint .` · `npx jest` (66/66) ·
+`npx expo export --platform web` (14 routes).
+
+**Errors found / fixes:** `backup.test.ts` failed to load because `lib/backup` imported
+`lib/supabase` (RN/ESM) — split the network layer into `lib/backupSync.ts` so the pure envelope
+logic imports nothing native; test then passed. Same pure-vs-native split used for purchases/paywall.
+
+---
+
+## FINAL SUMMARY — HivePocket MVP (iterations 0–6)
+
+The fastest offline hive-inspection logger, per the research wedge. Shipped, on-branch, verified
+statically every step:
+
+- **Foundation** (it0): Expo SDK 57 + expo-router + TS; offline domain core; payments layer from
+  the titan boilerplate; governing model-routing rules (`CLAUDE.md`).
+- **Setup + portability** (it1): hive/apiary creation UI; free CSV export + paste-import.
+- **Capture** (it2–3): one-tap inspection form with giant tap targets + live risk preview;
+  cross-platform photo attachments; honest voice-to-note interface stub.
+- **Guidance** (it4–5): auto-generated next-action reminders (deduped) from inspections/
+  treatments; risk-summary dashboard; overdue tasks; mite-count calculator; treatment logging.
+- **Backup + money** (it6): versioned cloud-backup envelope + flagged Supabase sync; free-tier
+  paywall gating.
+
+**End-to-end (on device):** create hive → inspect (photos, note, mite count) → colony auto-colours
+on the dashboard → reminders schedule themselves → export CSV any time.
+
+**Guardrails held every iteration:** offline save-first; export never paywalled; AI/advice
+assist-only with sourced disclaimers (HBHC mite thresholds; no invented withdrawal windows); giant
+tap targets; **Fable never invoked**; money/migration/security scaffolded-and-flagged, never wired
+to real credentials; **no merge, no PR** — the branch is the record, awaiting a human "go".
+
+**Verification reality:** static gate only (tsc, eslint, 66 Jest cases, web-export of 14 routes).
+No simulator/EAS/real purchase exists in this sandbox — native + purchase + live-webhook paths are
+flagged for on-device review, never claimed tested.
+
+**Deferred (post-MVP, build order 7–8):** mentor/helper sharing; advanced reports; on-device STT +
+camera; treatment entries on the timeline; real RevenueCat offering + Supabase auth wiring.

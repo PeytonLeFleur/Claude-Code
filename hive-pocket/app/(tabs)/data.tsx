@@ -11,6 +11,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Clipboard from 'expo-clipboard';
 import { useHiveStore } from '@/lib/store';
 import { hivesToCsv, inspectionsToCsv, parseHivesCsv } from '@/lib/csv';
+import { buildBackup } from '@/lib/backup';
+import { pushBackup } from '@/lib/backupSync';
 
 // Data portability is a core promise (project CLAUDE.md), so this lives in the
 // free tier. Export = copy CSV to clipboard (works on web + native without a
@@ -35,6 +37,16 @@ export default function DataScreen() {
     const text = await Clipboard.getStringAsync();
     setPaste(text);
     setStatus(text ? 'Pasted from clipboard.' : 'Clipboard was empty.');
+  };
+
+  const backupNow = async () => {
+    try {
+      await pushBackup('me', buildBackup(snapshot(), new Date().toISOString()));
+      setStatus('Backed up to cloud.');
+    } catch (e) {
+      // Expected until Supabase + sign-in are configured — flagged, not broken.
+      setStatus(e instanceof Error ? e.message : 'Cloud backup is not available yet.');
+    }
   };
 
   const runImport = () => {
@@ -68,6 +80,19 @@ export default function DataScreen() {
           style={({ pressed }) => [styles.btn, pressed && styles.pressed]}
         >
           <Text style={styles.btnText}>Copy inspections CSV ({inspections.length})</Text>
+        </Pressable>
+
+        <Text style={styles.section}>Cloud backup</Text>
+        <Text style={styles.help}>
+          Local-first: your data is already saved on this device. Cloud backup is a safety net
+          that turns on after sign-in on a configured build.
+        </Text>
+        <Pressable
+          onPress={backupNow}
+          accessibilityRole="button"
+          style={({ pressed }) => [styles.btnGhost, pressed && styles.pressed]}
+        >
+          <Text style={styles.btnGhostText}>Back up now</Text>
         </Pressable>
 
         <Text style={styles.section}>Import hives</Text>

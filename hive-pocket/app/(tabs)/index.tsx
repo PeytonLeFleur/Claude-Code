@@ -5,6 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useHiveStore } from '@/lib/store';
 import { buildDashboard, sortByUrgency } from '@/lib/dashboard';
 import { riskColor, type ColonyRiskLevel } from '@/lib/risk';
+import { useEntitlement } from '@/hooks/useEntitlement';
+import { canAddHive } from '@/lib/entitlements';
 import { HiveCard } from '@/components/HiveCard';
 
 const SUMMARY_ORDER: { level: ColonyRiskLevel; label: string }[] = [
@@ -38,7 +40,12 @@ export default function ApiaryDashboard() {
     return counts;
   }, [cards]);
 
-  const newHive = () => router.push('/hive/new');
+  const { active: isPro } = useEntitlement();
+
+  // Free tier caps hive count; over the limit we route to the paywall instead.
+  // (Export and existing data are never gated — only adding new hives.)
+  const newHive = () =>
+    router.push(canAddHive(hives.length, isPro) ? '/hive/new' : '/paywall');
 
   return (
     <SafeAreaView style={styles.screen} edges={['top']}>
