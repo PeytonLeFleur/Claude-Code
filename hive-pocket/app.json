@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "HivePocket",
+    "slug": "hive-pocket",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "hivepocket",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.titanleadgeneration.hivepocket"
+    },
+    "android": {
+      "package": "com.titanleadgeneration.hivepocket",
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-sqlite"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
