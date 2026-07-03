@@ -6,7 +6,7 @@ one guarded iteration at a time, then a final report.
 **App root:** `hive-pocket/`
 **Cron job:** `7d774d61` (every ~6 min) — delete when the loop is recorded COMPLETE.
 
-**Completed iterations: 1 / target ~10.**
+**Completed iterations: 2 / target ~10.**
 
 ---
 
@@ -32,7 +32,7 @@ this sandbox — native and purchase paths are flagged for on-device review, nev
 
 - [x] 0. Foundation: project shell, offline domain core, payments layer scaffold, first screens, tests
 - [x] 1. Hive/apiary setup UI + CSV import/export (surfaced in a Data tab)
-- [ ] 2. Offline inspection form with giant tap targets
+- [x] 2. Offline inspection form with giant tap targets
 - [ ] 3. Voice-to-note + photo attachments (interfaces/stubs where native-only)
 - [ ] 4. Risk dashboard polish + next-action reminder generation
 - [ ] 5. Mite-count calculator screen + treatment reminder scheduling
@@ -130,3 +130,42 @@ on-device iteration (needs a real device to verify anyway).
 **Remaining opportunities:** native file/share export + document-picker import (on-device);
 apiary section-grouping and edit/delete on the dashboard. Next up: item 2 — the offline
 one-tap inspection form with giant tap targets, writing `Inspection` records to the store.
+
+---
+
+## Iteration 2 — Offline one-tap inspection form
+
+**Audit findings:** No inspection form existed — the hive timeline literally read "the one-tap
+inspection form lands in a coming update." The store had `addInspection` and the `Inspection`
+type, but nothing wrote real inspections. (Photos/voice = item 3, mite entry = item 5, so out
+of scope here.)
+
+**~10 ideas:** inspect modal with big segmented controls; reusable `SegmentedField`; healthy
+"quick log" defaults; note field; live risk preview; launch from timeline; auto follow-up task
+(item 4 — defer); inline mite entry (item 5 — defer); single source of truth for options;
+edit-later (defer).
+
+**Chosen:** the core field form — reusable big-target `SegmentedField`, a typed options module,
+an `inspect/[hiveId]` modal that writes to the offline store, a live colony-risk preview
+(reuses tested `colonyRisk`), launched from the hive timeline.
+
+**Built:**
+- `lib/inspectionOptions.ts`: queen/brood/temperament/stores option lists + healthy defaults,
+  each pinned to the domain union with `satisfies` (a typo or drifted enum fails tsc).
+- `components/SegmentedField.tsx`: generic 56px-min-height segmented picker, radio a11y.
+- `app/inspect/[hiveId].tsx`: inspection modal — opens on healthy defaults (clean colony = one
+  "Save" tap), note field, live risk preview, save-first write via `addInspection`.
+- Wired: registered the `inspect/[hiveId]` modal route; hive timeline now has a "+ Log
+  inspection" button and updated empty-state copy.
+
+**Model routing:** current session model only. Fable not invoked. No merge, no PR.
+
+**Commands run:** `npx tsc --noEmit` (clean) · `npx eslint .` (clean) · `npx jest` (38/38 —
+options module is compile-time checked, no new runtime cases needed) · `npx expo export
+--platform web` (12 routes, `/inspect/[hiveId]` added).
+
+**Errors found / fixes:** none — gate green first pass.
+
+**Remaining opportunities:** photo + voice-note capture on the inspection (item 3); auto-generate
+a follow-up task on save (item 4); inline mite count during inspection (item 5). Next up: item 3
+— photo attachments + voice-to-note (native-only pieces stubbed with sourced disclaimers).

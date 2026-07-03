@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
-import { useLocalSearchParams, Stack } from 'expo-router';
+import { View, Text, FlatList, Pressable, StyleSheet } from 'react-native';
+import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useHiveStore } from '@/lib/store';
 import { colonyRisk } from '@/lib/risk';
@@ -9,6 +9,7 @@ import { daysSince } from '@/lib/dashboard';
 
 export default function HiveTimeline() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const router = useRouter();
   const hive = useHiveStore((s) => s.hives.find((h) => h.id === id));
   const inspections = useHiveStore((s) =>
     s.inspections.filter((i) => i.hiveId === id),
@@ -62,12 +63,20 @@ export default function HiveTimeline() {
           <View style={styles.empty}>
             <Text style={styles.emptyTitle}>No inspections logged</Text>
             <Text style={styles.emptyBody}>
-              The one-tap inspection form lands in a coming update.
+              Tap “Log inspection” to record the first one.
             </Text>
           </View>
         }
         contentContainerStyle={timeline.length === 0 && styles.emptyContainer}
       />
+
+      <Pressable
+        onPress={() => router.push(`/inspect/${id}`)}
+        accessibilityRole="button"
+        style={({ pressed }) => [styles.fab, pressed && { opacity: 0.85 }]}
+      >
+        <Text style={styles.fabText}>+ Log inspection</Text>
+      </Pressable>
     </SafeAreaView>
   );
 }
@@ -99,4 +108,15 @@ const styles = StyleSheet.create({
   emptyContainer: { flexGrow: 1, justifyContent: 'center' },
   emptyTitle: { fontSize: 20, fontWeight: '700', color: '#44403c' },
   emptyBody: { fontSize: 15, color: '#78716c', textAlign: 'center' },
+  fab: {
+    position: 'absolute',
+    right: 20,
+    bottom: 24,
+    backgroundColor: '#b45309',
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    borderRadius: 999,
+    elevation: 4,
+  },
+  fabText: { color: '#fff', fontSize: 18, fontWeight: '700' },
 });
