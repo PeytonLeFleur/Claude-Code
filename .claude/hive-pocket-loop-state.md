@@ -6,7 +6,7 @@ one guarded iteration at a time, then a final report.
 **App root:** `hive-pocket/`
 **Cron job:** `7d774d61` (every ~6 min) — delete when the loop is recorded COMPLETE.
 
-**Completed iterations: 2 / target ~10.**
+**Completed iterations: 3 / target ~10.**
 
 ---
 
@@ -33,7 +33,7 @@ this sandbox — native and purchase paths are flagged for on-device review, nev
 - [x] 0. Foundation: project shell, offline domain core, payments layer scaffold, first screens, tests
 - [x] 1. Hive/apiary setup UI + CSV import/export (surfaced in a Data tab)
 - [x] 2. Offline inspection form with giant tap targets
-- [ ] 3. Voice-to-note + photo attachments (interfaces/stubs where native-only)
+- [x] 3. Photo attachments (real, cross-platform) + voice-to-note (interface stubbed/flagged)
 - [ ] 4. Risk dashboard polish + next-action reminder generation
 - [ ] 5. Mite-count calculator screen + treatment reminder scheduling
 - [ ] 6. Cloud backup + annual subscription paywall (scaffold-and-flag)
@@ -169,3 +169,43 @@ options module is compile-time checked, no new runtime cases needed) · `npx exp
 **Remaining opportunities:** photo + voice-note capture on the inspection (item 3); auto-generate
 a follow-up task on save (item 4); inline mite count during inspection (item 5). Next up: item 3
 — photo attachments + voice-to-note (native-only pieces stubbed with sourced disclaimers).
+
+---
+
+## Iteration 3 — Photo attachments + voice-to-note interface
+
+**Audit findings:** `Inspection.photos` existed in the type but was never populated; the inspect
+form captured only a typed note. Photos are a native surface but `expo-image-picker` has real
+web support, so they can be genuinely cross-platform; speech-to-text has no reliable
+web/sandbox path, so per the build order it's "interface/stub where native-only."
+
+**~10 ideas:** photo pick/capture; thumbnails in the form; photos in timeline; pure photo-list
+util; dictation abstraction with `.web` stub; availability flag + disclaimer; manual-typing
+fallback; per-photo remove; AI note-cleanup hook (assist-only — defer real AI); photo badge on
+hive cards.
+
+**Chosen:** real cross-platform photos (with a tested pure util) + voice-to-note as an honest,
+disclaimed interface stub that degrades to typing — no faked STT.
+
+**Built:**
+- `lib/photos.ts` (pure, tested): `mergePhotos` (dedup, order-preserving, caps at 8),
+  `removePhoto`. `__tests__/photos.test.ts` (+7 cases).
+- `lib/dictation.ts` + `lib/dictation.web.ts`: `DictationCapability` interface reporting
+  `available:false` with a clear reason; `dictate()` throws that reason. No invented STT.
+- `app/inspect/[hiveId].tsx`: "＋" photo picker (`expo-image-picker`, permission-checked,
+  multi-select, quality 0.7), removable thumbnails, a "🎤 Dictate" button that surfaces the
+  honest reason and leaves the note typeable; photos saved onto the inspection.
+- `app/hive/[id].tsx`: timeline entries now render photo thumbnails.
+- Dep: `expo-image-picker@57` (web + native).
+
+**Model routing:** current session model only. Fable not invoked. No merge, no PR.
+
+**Commands run:** `npm i expo-image-picker` (clean) · `npx tsc --noEmit` (clean) · `npx eslint .`
+(clean) · `npx jest` (45/45, +7 photo cases) · `npx expo export --platform web` (12 routes,
+image-picker bundles cleanly on web).
+
+**Errors found / fixes:** none — gate green first pass.
+
+**Remaining opportunities:** real on-device STT wiring + camera capture (dev build); AI
+note-cleanup (assist-only, disclaimed). Next up: item 4 — risk dashboard polish + auto-generating
+next-action reminders (tasks) from inspections/treatments.

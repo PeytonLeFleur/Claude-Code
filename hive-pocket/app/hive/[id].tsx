@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { View, Text, FlatList, Pressable, StyleSheet } from 'react-native';
+import { View, Text, FlatList, Pressable, Image, StyleSheet } from 'react-native';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useHiveStore } from '@/lib/store';
@@ -56,6 +56,13 @@ export default function HiveTimeline() {
               <Text style={styles.line}>Temperament: {item.temperament}</Text>
               {mite ? <Text style={styles.mite}>{mite.message}</Text> : null}
               {item.note ? <Text style={styles.note}>“{item.note}”</Text> : null}
+              {item.photos && item.photos.length ? (
+                <View style={styles.photoRow}>
+                  {item.photos.map((uri) => (
+                    <Image key={uri} source={{ uri }} style={styles.thumb} />
+                  ))}
+                </View>
+              ) : null}
             </View>
           );
         }}
@@ -104,6 +111,8 @@ const styles = StyleSheet.create({
   line: { fontSize: 14, color: '#44403c' },
   mite: { fontSize: 13, color: '#b45309', marginTop: 4 },
   note: { fontSize: 14, color: '#57534e', fontStyle: 'italic', marginTop: 4 },
+  photoRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 6 },
+  thumb: { width: 56, height: 56, borderRadius: 8, backgroundColor: '#e7e0d3' },
   empty: { alignItems: 'center', paddingHorizontal: 32, gap: 8 },
   emptyContainer: { flexGrow: 1, justifyContent: 'center' },
   emptyTitle: { fontSize: 20, fontWeight: '700', color: '#44403c' },
