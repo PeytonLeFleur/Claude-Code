@@ -5,6 +5,7 @@ export default function TabsLayout() {
     <Tabs screenOptions={{ tabBarActiveTintColor: '#b45309' }}>
       <Tabs.Screen name="index" options={{ title: 'Apiary' }} />
       <Tabs.Screen name="tasks" options={{ title: 'Tasks' }} />
+      <Tabs.Screen name="data" options={{ title: 'Data' }} />
     </Tabs>
   );
 }

@@ -6,7 +6,7 @@ one guarded iteration at a time, then a final report.
 **App root:** `hive-pocket/`
 **Cron job:** `7d774d61` (every ~6 min) — delete when the loop is recorded COMPLETE.
 
-**Completed iterations: 0 (foundation) / target ~10.**
+**Completed iterations: 1 / target ~10.**
 
 ---
 
@@ -31,7 +31,7 @@ this sandbox — native and purchase paths are flagged for on-device review, nev
 ## Build order (from HivePocket research `recommended_build_order`)
 
 - [x] 0. Foundation: project shell, offline domain core, payments layer scaffold, first screens, tests
-- [ ] 1. Hive/apiary setup UI + CSV import (export logic already in `lib/csv.ts`)
+- [x] 1. Hive/apiary setup UI + CSV import/export (surfaced in a Data tab)
 - [ ] 2. Offline inspection form with giant tap targets
 - [ ] 3. Voice-to-note + photo attachments (interfaces/stubs where native-only)
 - [ ] 4. Risk dashboard polish + next-action reminder generation
@@ -87,3 +87,46 @@ plus the governing rules the branch name calls for.
 
 **Remaining opportunities:** everything in build order 1–8. Next up: item 1 — apiary/hive
 setup UI wired to the store, and a CSV export/share action surfacing `lib/csv.ts`.
+
+---
+
+## Iteration 1 — Hive/apiary setup UI + CSV import/export
+
+**Audit findings:** The dashboard "+ Add hive" FAB *faked* creation — auto-named "Home Yard" /
+"Hive N" with no user input, no yard choice, no install date. `lib/csv.ts` export logic existed
+but was surfaced **nowhere** — the free-export core promise was unreachable. No CSV import, no
+apiary management.
+
+**~10 ideas:** real New-hive modal (name + yard picker); inline new-apiary creation; a Data tab
+surfacing CSV export; CSV paste-import (cross-platform, no native file picker); apiary
+section-grouping; edit/delete; empty-state CTA → creation; free-tier hint; reusable form
+primitives; full-JSON backup.
+
+**Chosen (fits one iteration, completes item 1):** real hive/apiary **creation UI** + **CSV
+export surfaced** (copy to clipboard — works web + native, keeps the gate green) + **CSV
+paste-import** backed by a pure, tested parser. Deferred native file/share export to a later
+on-device iteration (needs a real device to verify anyway).
+
+**Built:**
+- `lib/csv.ts`: `parseCsv` (RFC-4180-ish: quotes, "" escapes, embedded newlines, CRLF),
+  `parseHivesCsv` (tolerant header mapping, skips hive-less rows, never throws), `hivesToCsv`
+  (round-trips with the parser).
+- `lib/store.ts`: `importHives(rows)` — find-or-create apiary by name (incl. within one batch),
+  bulk-add hives, returns count.
+- `app/hive/new.tsx`: glove-friendly New-hive modal — name, yard chips + inline new-yard field,
+  optional install date; disabled-until-valid save; writes straight to the offline store.
+- `app/(tabs)/data.tsx`: Data tab — copy hives/inspections CSV, paste + import hives, live status.
+- Wiring: registered `hive/new` modal route; added Data tab; dashboard FAB + empty state now open
+  the real creation flow (removed the fake auto-add).
+- Dep: `expo-clipboard@57` (web + native).
+
+**Model routing:** ran on the current session model. Fable not invoked. No merge, no PR.
+
+**Commands run:** `npm i expo-clipboard` (clean) · `npx tsc --noEmit` (clean) · `npx eslint .`
+(clean) · `npx jest` (38/38, +7 new CSV cases) · `npx expo export --platform web` (11 routes).
+
+**Errors found / fixes:** none — gate green first pass.
+
+**Remaining opportunities:** native file/share export + document-picker import (on-device);
+apiary section-grouping and edit/delete on the dashboard. Next up: item 2 — the offline
+one-tap inspection form with giant tap targets, writing `Inspection` records to the store.

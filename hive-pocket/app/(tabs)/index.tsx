@@ -13,8 +13,6 @@ export default function ApiaryDashboard() {
   const inspections = useHiveStore((s) => s.inspections);
   const treatments = useHiveStore((s) => s.treatments);
   const tasks = useHiveStore((s) => s.tasks);
-  const addApiary = useHiveStore((s) => s.addApiary);
-  const addHive = useHiveStore((s) => s.addHive);
 
   const cards = useMemo(
     () =>
@@ -24,10 +22,7 @@ export default function ApiaryDashboard() {
     [apiaries, hives, inspections, treatments, tasks],
   );
 
-  const addQuickHive = () => {
-    const apiary = apiaries[0] ?? addApiary('Home Yard');
-    addHive(apiary.id, `Hive ${hives.length + 1}`);
-  };
+  const newHive = () => router.push('/hive/new');
 
   return (
     <SafeAreaView style={styles.screen} edges={['top']}>
@@ -45,18 +40,18 @@ export default function ApiaryDashboard() {
           <HiveCard card={item} onPress={() => router.push(`/hive/${item.hive.id}`)} />
         )}
         ListEmptyComponent={
-          <View style={styles.empty}>
+          <Pressable onPress={newHive} accessibilityRole="button" style={styles.empty}>
             <Text style={styles.emptyTitle}>No hives yet</Text>
             <Text style={styles.emptyBody}>
-              Add your first hive to start logging inspections.
+              Tap “+ Add hive” to start logging inspections.
             </Text>
-          </View>
+          </Pressable>
         }
         contentContainerStyle={cards.length === 0 && styles.emptyContainer}
       />
 
       <Pressable
-        onPress={addQuickHive}
+        onPress={newHive}
         accessibilityRole="button"
         style={({ pressed }) => [styles.fab, pressed && { opacity: 0.85 }]}
       >

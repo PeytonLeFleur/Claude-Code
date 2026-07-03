@@ -29,6 +29,8 @@ export interface HiveState extends HiveData {
   addTreatment: (t: Omit<Treatment, 'id'>) => Treatment;
   addTask: (t: Omit<Task, 'id' | 'done'>) => Task;
   toggleTask: (id: string) => void;
+  /** Bulk-create hives from parsed CSV rows, reusing apiaries by name. */
+  importHives: (rows: { apiary: string; hive: string; installedAt?: string }[]) => number;
   /** Full snapshot for export / backup. */
   snapshot: () => HiveData;
   /** Replace everything (e.g. after a restore). */
@@ -93,6 +95,26 @@ export const useHiveStore = create<HiveState>()(
         set((s) => ({
           tasks: s.tasks.map((t) => (t.id === id ? { ...t, done: !t.done } : t)),
         })),
+
+      importHives: (rows) => {
+        // Reuse apiaries by (case-insensitive) name, including ones created
+        // earlier in the same batch. set() is synchronous, so get() sees them.
+        const nameToId = new Map(
+          get().apiaries.map((a) => [a.name.toLowerCase(), a.id]),
+        );
+        let count = 0;
+        for (const row of rows) {
+          const key = row.apiary.toLowerCase();
+          let apiaryId = nameToId.get(key);
+          if (!apiaryId) {
+            apiaryId = get().addApiary(row.apiary).id;
+            nameToId.set(key, apiaryId);
+          }
+          get().addHive(apiaryId, row.hive, row.installedAt);
+          count += 1;
+        }
+        return count;
+      },
 
       snapshot: () => {
         const { apiaries, hives, inspections, treatments, tasks } = get();

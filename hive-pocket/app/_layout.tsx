@@ -22,6 +22,10 @@ export default function RootLayout() {
       <Stack screenOptions={{ headerShown: true }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="hive/[id]" options={{ title: 'Hive' }} />
+        <Stack.Screen
+          name="hive/new"
+          options={{ title: 'New hive', presentation: 'modal' }}
+        />
         <Stack.Screen name="paywall" options={{ title: 'HivePocket Pro', presentation: 'modal' }} />
       </Stack>
     </SafeAreaProvider>
