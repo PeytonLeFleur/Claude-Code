@@ -77,13 +77,29 @@ export default function HiveTimeline() {
         contentContainerStyle={timeline.length === 0 && styles.emptyContainer}
       />
 
-      <Pressable
-        onPress={() => router.push(`/inspect/${id}`)}
-        accessibilityRole="button"
-        style={({ pressed }) => [styles.fab, pressed && { opacity: 0.85 }]}
-      >
-        <Text style={styles.fabText}>+ Log inspection</Text>
-      </Pressable>
+      <View style={styles.actions}>
+        <Pressable
+          onPress={() => router.push(`/inspect/${id}`)}
+          accessibilityRole="button"
+          style={({ pressed }) => [styles.actionPrimary, pressed && { opacity: 0.85 }]}
+        >
+          <Text style={styles.actionPrimaryText}>Inspect</Text>
+        </Pressable>
+        <Pressable
+          onPress={() => router.push(`/mites/${id}`)}
+          accessibilityRole="button"
+          style={({ pressed }) => [styles.actionSecondary, pressed && { opacity: 0.85 }]}
+        >
+          <Text style={styles.actionSecondaryText}>Mites</Text>
+        </Pressable>
+        <Pressable
+          onPress={() => router.push(`/treatment/${id}`)}
+          accessibilityRole="button"
+          style={({ pressed }) => [styles.actionSecondary, pressed && { opacity: 0.85 }]}
+        >
+          <Text style={styles.actionSecondaryText}>Treat</Text>
+        </Pressable>
+      </View>
     </SafeAreaView>
   );
 }
@@ -117,15 +133,32 @@ const styles = StyleSheet.create({
   emptyContainer: { flexGrow: 1, justifyContent: 'center' },
   emptyTitle: { fontSize: 20, fontWeight: '700', color: '#44403c' },
   emptyBody: { fontSize: 15, color: '#78716c', textAlign: 'center' },
-  fab: {
-    position: 'absolute',
-    right: 20,
-    bottom: 24,
+  actions: {
+    flexDirection: 'row',
+    gap: 10,
+    paddingHorizontal: 16,
+    paddingTop: 8,
+    paddingBottom: 12,
+  },
+  actionPrimary: {
+    flex: 2,
     backgroundColor: '#b45309',
-    paddingHorizontal: 24,
     paddingVertical: 16,
     borderRadius: 999,
-    elevation: 4,
+    alignItems: 'center',
+    minHeight: 56,
+    justifyContent: 'center',
   },
-  fabText: { color: '#fff', fontSize: 18, fontWeight: '700' },
+  actionPrimaryText: { color: '#fff', fontSize: 17, fontWeight: '700' },
+  actionSecondary: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#b45309',
+    paddingVertical: 16,
+    borderRadius: 999,
+    alignItems: 'center',
+    minHeight: 56,
+    justifyContent: 'center',
+  },
+  actionSecondaryText: { color: '#b45309', fontSize: 16, fontWeight: '700' },
 });

@@ -6,7 +6,7 @@ one guarded iteration at a time, then a final report.
 **App root:** `hive-pocket/`
 **Cron job:** `7d774d61` (every ~6 min) — delete when the loop is recorded COMPLETE.
 
-**Completed iterations: 4 / target ~10.**
+**Completed iterations: 5 / target ~10.**
 
 ---
 
@@ -35,7 +35,7 @@ this sandbox — native and purchase paths are flagged for on-device review, nev
 - [x] 2. Offline inspection form with giant tap targets
 - [x] 3. Photo attachments (real, cross-platform) + voice-to-note (interface stubbed/flagged)
 - [x] 4. Risk dashboard polish + next-action reminder generation
-- [ ] 5. Mite-count calculator screen + treatment reminder scheduling
+- [x] 5. Mite-count calculator screen + treatment logging with reminder scheduling
 - [ ] 6. Cloud backup + annual subscription paywall (scaffold-and-flag)
 - [ ] 7. Mentor/helper read-only sharing
 - [ ] 8. Advanced reports + club/sideliner features
@@ -249,3 +249,45 @@ strict gate. Caught precisely because typecheck runs on the whole tree, tests in
 **Remaining opportunities:** treatment-logging UI to feed `suggestTasksForTreatment`; configurable
 inspection interval; task snooze/reschedule. Next up: item 5 — mite-count calculator screen +
 treatment logging with reminder scheduling.
+
+---
+
+## Iteration 5 — Mite calculator + treatment logging
+
+**Audit findings:** `lib/mites.ts` had the full calculator but no screen surfaced it, and the
+inspect form never captured a mite count. `store.addTreatment` + `suggestTasksForTreatment`
+(iteration 4) existed but had no UI, so that reminder path was dead code.
+
+**~10 ideas:** standalone mite calculator; save the count as a mite-check inspection (feeds risk
++ reminders); mite entry inside the inspect form; treatment log screen; launch both from the
+timeline; live risk colour + source; treatment history on timeline; typed option modules; numeric
+big-tap inputs; preset withdrawal windows (rejected — "no invented facts").
+
+**Chosen:** mite calculator that saves a mite-check inspection (reusing `infestationRisk` + the
+reminder engine) + treatment log that auto-schedules its follow-up, both launched from the timeline.
+
+**Built:**
+- `lib/inspectionOptions.ts`: added `MITE_METHOD_OPTIONS` (wash / roll / board), union-pinned.
+- `lib/treatmentOptions.ts`: `TREATMENT_OPTIONS`, union-pinned; withdrawal windows deliberately
+  NOT hard-coded (vary by product/dose/regulation — the app asks, never invents).
+- `app/mites/[hiveId].tsx`: method toggle, method-specific inputs (bees for wash/roll, days for
+  board), live risk result with the shared palette + the HBHC source; "Save mite check" records a
+  lightweight inspection (non-mite fields = unknown) so it flows into the dashboard + reminders.
+- `app/treatment/[hiveId].tsx`: treatment type, user-entered follow-up window (with a label-your-
+  product prompt), note; saves and auto-schedules the follow-up reminder.
+- `app/hive/[id].tsx`: timeline bottom action bar — Inspect / Mites / Treat.
+- Registered both modal routes.
+
+**Model routing:** current session model only. Fable not invoked. No merge, no PR.
+
+**Commands run:** `npx tsc --noEmit` · `npx eslint .` · `npx jest` (56/56 — screens reuse
+already-tested logic) · `npx expo export --platform web` (14 routes).
+
+**Errors found / fixes:** first gate run executed from the repo root (cwd resets between cron
+firings) and mis-reported failures; re-ran from `hive-pocket/` — all green. (Also fixed a stray
+`ColonyRiskLevel` import sourced from `types` instead of `risk` before the clean run.) Lesson for
+the loop: always `cd hive-pocket` in the gate command.
+
+**Remaining opportunities:** treatment entries on the timeline; configurable inspection interval.
+Next up: item 6 — cloud backup + annual subscription paywall (scaffold-and-flag money lane), the
+last MVP item.

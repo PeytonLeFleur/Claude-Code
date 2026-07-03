@@ -30,6 +30,14 @@ export default function RootLayout() {
           name="inspect/[hiveId]"
           options={{ title: 'Inspection', presentation: 'modal' }}
         />
+        <Stack.Screen
+          name="mites/[hiveId]"
+          options={{ title: 'Mite check', presentation: 'modal' }}
+        />
+        <Stack.Screen
+          name="treatment/[hiveId]"
+          options={{ title: 'Treatment', presentation: 'modal' }}
+        />
         <Stack.Screen name="paywall" options={{ title: 'HivePocket Pro', presentation: 'modal' }} />
       </Stack>
     </SafeAreaProvider>

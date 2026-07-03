@@ -5,6 +5,7 @@ import type {
   BroodStatus,
   Temperament,
   Stores,
+  MiteMethod,
 } from './types';
 
 export interface Option<T> {
@@ -39,6 +40,12 @@ export const STORES_OPTIONS = [
   { value: 'light', label: 'Light' },
   { value: 'empty', label: 'Empty' },
 ] as const satisfies readonly Option<Stores>[];
+
+export const MITE_METHOD_OPTIONS = [
+  { value: 'alcohol_wash', label: 'Alcohol wash' },
+  { value: 'sugar_roll', label: 'Sugar roll' },
+  { value: 'sticky_board', label: 'Sticky board' },
+] as const satisfies readonly Option<MiteMethod>[];
 
 /** Sensible "quick log" defaults — a healthy colony, one tap to save. */
 export const INSPECTION_DEFAULTS = {
