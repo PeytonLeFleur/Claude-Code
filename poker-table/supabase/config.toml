@@ -1,0 +1,6 @@
+# Minimal Supabase CLI config. `supabase link --project-ref <ref>` then
+# `supabase db push` applies migrations/ in order.
+project_id = "basement-poker"
+
+[db]
+major_version = 15
